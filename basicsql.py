@@ -51,7 +51,7 @@ def insert_mtworkorder(tsid, name, department, tools, details, part_number, phon
         command = 'INSERT INTO mt_workorder VALUES (?,?,?,?,?,?,?,?)'
         c.execute(command, (None, tsid, name, department, tools, details, part_number, phone_number))
     conn.commit()  # saving database
-    print('Database has been saved')
+    print('Database 'f'{tsid} has been saved')
 
 # Insert data into table
 # insert_mtworkorder('TS0001', 'Somsak', 'HR', 'Printer', 'Paper stuck', 'PT001', '159')
@@ -64,6 +64,26 @@ def view_mtworkorder():
         c.execute(command)
         result = c.fetchall()
     return result
+
+# Update information on database mt_workorder
+def update_mtworkorder(tsid, field, newvalue):
+    with conn:
+        command = 'UPDATE mt_workorder SET {} = (?) WHERE tsid=(?)'.format(field)
+        c.execute(command, (newvalue, tsid))
+    conn.commit() 
+    print('Database 'f'{tsid, field} was updated')
+
+# update_mtworkorder('TS0001', 'name', 'Josh') # change name on the tsid0001, with new name = Josh
+# update_mtworkorder('TS0002', 'name', 'Wilson') # change name on the tsid0001, with new name = Josh
+
+def delete_mtworkorder(tsid):
+    with conn:
+        command = 'DELETE from mt_workorder WHERE tsid=(?)'
+        c.execute(command, ([tsid]))
+    conn.commit()
+    print('Data 'f'{tsid} was deleted')
+
+delete_mtworkorder('TS0002')
 
 # Print workorder list 
 workorder_list = view_mtworkorder()
