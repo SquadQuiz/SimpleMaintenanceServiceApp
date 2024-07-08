@@ -16,6 +16,18 @@ GUI.geometry("500x500+800+400")
 FONT1 = ("Angsana New", 20, 'bold')
 FONT2 = ("Angsana New", 16)
 
+#### TAB ####
+Tab = ttk.Notebook(GUI)
+T1 = Frame(Tab)
+T2 = Frame(Tab)
+T3 = Frame(Tab)
+Tab.add(T1, text='Maintenance Tickets') 
+Tab.add(T2, text='Tickets Information') 
+Tab.add(T3, text='Summary') 
+Tab.pack(fill=BOTH, expand=1) 
+
+####------------------ TAB1 ------------------###
+
 #### Label & Entry ####
 L = Label(GUI, text="Maintenance Tickets!", font=FONT1)
 L.pack()
