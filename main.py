@@ -62,7 +62,15 @@ v_phone_number = StringVar()
 E6 = ttk.Entry(GUI, textvariable=v_phone_number, font=FONT2)
 E6.place(x=150, y=300)
 
-# ---------------
+# --------- Function --------- #
+def clear_stringvar_value():
+    v_name.set('')
+    v_department.set('')
+    v_tools.set('')
+    v_details.set('')
+    v_part_number.set('')
+    v_phone_number.set('')
+
 def save_button():
     name = v_name.get()
     department = v_department.get()
@@ -85,14 +93,6 @@ def save_button():
     # Clear string
     clear_stringvar_value()
 
-def clear_stringvar_value():
-    v_name.set('')
-    v_department.set('')
-    v_tools.set('')
-    v_details.set('')
-    v_part_number.set('')
-    v_phone_number.set('')
-
 #### Button ####
 # Create a style and configure the font for the TButton
 style = ttk.Style()
@@ -101,5 +101,5 @@ style.configure("TButton", font=FONT2)
 B = ttk.Button(GUI, text="   Save   ", style="TButton", command=save_button)
 B.place(x=200, y=350)
 
-#### Main loop ####
+#----------------------- Main loop -----------------------#
 GUI.mainloop()
