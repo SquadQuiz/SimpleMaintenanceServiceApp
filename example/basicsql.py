@@ -53,10 +53,6 @@ def insert_mtworkorder(tsid, name, department, tools, details, part_number, phon
     conn.commit()  # saving database
     print('Database 'f'{tsid} has been saved')
 
-# Insert data into table
-# insert_mtworkorder('TS0001', 'Somsak', 'HR', 'Printer', 'Paper stuck', 'PT001', '159')
-# insert_mtworkorder('TS0002', 'Somrak', 'IT', 'Laptop', 'Can\'t turn on', 'LT001', '120')
-
 # Read workorder list from database
 def view_mtworkorder():
     with conn:
@@ -73,8 +69,6 @@ def update_mtworkorder(tsid, field, newvalue):
     conn.commit() 
     print('Database 'f'{tsid, field} was updated')
 
-# update_mtworkorder('TS0001', 'name', 'Josh') # change name on the tsid0001, with new name = Josh
-# update_mtworkorder('TS0002', 'name', 'Wilson') # change name on the tsid0001, with new name = Josh
 
 def delete_mtworkorder(tsid):
     with conn:
@@ -83,9 +77,16 @@ def delete_mtworkorder(tsid):
     conn.commit()
     print('Data 'f'{tsid} was deleted')
 
-delete_mtworkorder('TS0002')
+# Insert data into table
+# insert_mtworkorder('TS0001', 'Somsak', 'HR', 'Printer', 'Paper stuck', 'PT001', '159')
+# insert_mtworkorder('TS0002', 'Somrak', 'IT', 'Laptop', 'Can\'t turn on', 'LT001', '120')
+
+# update_mtworkorder('TS0001', 'name', 'Josh') # change name on the tsid0001, with new name = Josh
+# update_mtworkorder('TS0002', 'name', 'Wilson') # change name on the tsid0001, with new name = Josh
+
+# delete_mtworkorder('TS0002')
 
 # Print workorder list 
-workorder_list = view_mtworkorder()
-for list in workorder_list:
-    print(list)
+# workorder_list = view_mtworkorder()
+# for list in workorder_list:
+#     print(list)
