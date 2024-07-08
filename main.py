@@ -59,12 +59,6 @@ E6 = Entry(GUI, textvariable=v_phone_number, font=FONT2)
 E6.place(x=150, y=300)
 
 # ---------------
-
-def write_csv(record_list):
-    with open('log.csv', 'a', newline='',encoding='utf-8') as file:
-        fw = csv.writer(file)
-        fw.writerow(record_list)
-
 def save_button():
     name = v_name.get()
     department = v_department.get()
