@@ -79,9 +79,6 @@ def save_button():
     text = text + "Details: " + details + "\n"
     text = text + "Part number: " + part_number + "\n"
     text = text + "Phone number: " + phone_number + "\n"
-    # messagebox.showinfo("Saving information...", text)
-    dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    tsid = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     # Generate transaction id
     encrypt_num = 123543999010
     tsid = str(int(datetime.now().strftime('%y%m%d%H%M%S')) + encrypt_num)
