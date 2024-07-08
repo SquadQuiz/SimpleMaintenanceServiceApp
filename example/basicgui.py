@@ -10,11 +10,6 @@ messenger = Sendline(token)
 
 GUI = Tk()
 GUI.title("Maintenance Application")
-# 1920 * 1080
-# width = 1920/2
-# print(width)
-# height = 1080/2
-# print(height)
 GUI.geometry("500x500+800+400")
 
 #### FONT ####
