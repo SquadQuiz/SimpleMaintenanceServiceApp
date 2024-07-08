@@ -69,7 +69,7 @@ def update_mtworkorder(tsid, field, newvalue):
     conn.commit() 
     print('Database 'f'{tsid, field} was updated')
 
-
+# Delete information on database mt_workorder
 def delete_mtworkorder(tsid):
     with conn:
         command = 'DELETE from mt_workorder WHERE tsid=(?)'
