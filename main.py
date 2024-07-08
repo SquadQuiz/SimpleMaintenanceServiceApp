@@ -1,8 +1,8 @@
 from tkinter import *
 from tkinter import messagebox
 from datetime import datetime
-
-
+# Import Database
+from db_maintenance import *
 
 GUI = Tk()
 GUI.title("Maintenance Application")
@@ -79,10 +79,24 @@ def save_button():
     text = text + "Details: " + details + "\n"
     text = text + "Part number: " + part_number + "\n"
     text = text + "Phone number: " + phone_number + "\n"
-    messagebox.showinfo("Saving information...", text)
+    # messagebox.showinfo("Saving information...", text)
     dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    dt_list = [dt, name, department, tools, details, part_number, phone_number]
+    tsid = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    # Generate transaction id
+    encrypt_num = 123543999010
+    tsid = str(int(datetime.now().strftime('%y%m%d%H%M%S')) + encrypt_num)
+    insert_mtworkorder(tsid, name, department, tools, details, part_number, phone_number)
+    messagebox.showinfo('Save', 'Saving information...')
+    # Clear string
+    clear_stringvar_value()
 
+def clear_stringvar_value():
+    v_name.set('')
+    v_department.set('')
+    v_tools.set('')
+    v_details.set('')
+    v_part_number.set('')
+    v_phone_number.set('')
 
 #### Button ####
 B = Button(GUI, text="   Save   ", font=FONT2, command=save_button)
