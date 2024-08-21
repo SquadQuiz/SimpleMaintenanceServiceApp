@@ -116,6 +116,18 @@ B = ttk.Button(T1, text="   Save   ", style="TButton", command=save_button)
 B.place(x=200, y=350)
 
 ####------------------ TAB2-Tickets Information ------------------###
+#TODO: Tree-view table 
+header_list = ['TSID', 'Name', 'Department', 'Equipment', 'Details', 'Part number', 'Phone number']
+header_width = [50, 100, 100, 150,200, 100, 100]
+
+mtworkorderlist = ttk.Treeview(T2, columns=header_list, show='headings', height=20)
+mtworkorderlist.pack()
+
+# zip -> pair two lists
+for header, width in zip(header_list, header_width):
+    mtworkorderlist.heading(header, text=header)
+    mtworkorderlist.column(header, width=width)
+
 ####------------------ TAB3-Summary ------------------###
 #TODO: Summary table
 
