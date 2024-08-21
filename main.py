@@ -123,10 +123,18 @@ header_width = [50, 100, 100, 150,200, 100, 100]
 mtworkorderlist = ttk.Treeview(T2, columns=header_list, show='headings', height=20)
 mtworkorderlist.pack()
 
-# zip -> pair two lists
-for header, width in zip(header_list, header_width):
-    mtworkorderlist.heading(header, text=header)
-    mtworkorderlist.column(header, width=width)
+# Creating table header: zip -> pair two lists
+for h_list, h_width in zip(header_list, header_width):
+    mtworkorderlist.heading(h_list, text=h_list)
+    mtworkorderlist.column(h_list, width=h_width)
+
+# Inserting table value
+mtworkorder_db = view_mtworkorder()
+print(mtworkorder_db)
+for d in mtworkorder_db:
+    d = list(d) # convert tuble to list
+    del(d[0]) # remove index number
+    mtworkorderlist.insert('','end', values=d)
 
 ####------------------ TAB3-Summary ------------------###
 #TODO: Summary table
