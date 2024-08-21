@@ -106,6 +106,7 @@ def save_button():
     
     # Clear string
     clear_stringvar_value()
+    update_table()
 
 #### Button ####
 # Create a style and configure the font for the TButton
@@ -118,7 +119,7 @@ B.place(x=200, y=350)
 ####------------------ TAB2-Tickets Information ------------------###
 #TODO: Tree-view table 
 header_list = ['TSID', 'Name', 'Department', 'Equipment', 'Details', 'Part number', 'Phone number']
-header_width = [50, 100, 100, 150,200, 100, 100]
+header_width = [100, 100, 100, 150, 150, 100, 100]
 
 mtworkorderlist = ttk.Treeview(T2, columns=header_list, show='headings', height=20)
 mtworkorderlist.pack()
@@ -126,15 +127,23 @@ mtworkorderlist.pack()
 # Creating table header: zip -> pair two lists
 for h_list, h_width in zip(header_list, header_width):
     mtworkorderlist.heading(h_list, text=h_list)
-    mtworkorderlist.column(h_list, width=h_width)
+    mtworkorderlist.column(h_list, width=h_width, anchor='center')
+# anchor some headings to left side
+mtworkorderlist.column('TSID', anchor='w')
+mtworkorderlist.column('Details', anchor='w')
 
-# Inserting table value
-mtworkorder_db = view_mtworkorder()
-print(mtworkorder_db)
-for d in mtworkorder_db:
-    d = list(d) # convert tuble to list
-    del(d[0]) # remove index number
-    mtworkorderlist.insert('','end', values=d)
+def update_table():
+    # clear old data before inserting
+    mtworkorderlist.delete(*mtworkorderlist.get_children())
+    # Inserting table value
+    mtworkorder_db = view_mtworkorder()
+    for d in mtworkorder_db:
+        d = list(d) # convert tuble to list
+        del(d[0]) # delete index number on list
+        mtworkorderlist.insert('','end', values=d)
+
+### START-UP ###
+update_table()
 
 ####------------------ TAB3-Summary ------------------###
 #TODO: Summary table
