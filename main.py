@@ -30,7 +30,7 @@ Tab.pack(fill=BOTH, expand=1)
 
 #### Label & Entry ####
 L = Label(T1, text="Maintenance Tickets!", font=FONT1)
-L.pack()
+L.place(x=100,y=5)
 
 # ---------------
 L = Label(T1, text="Name:", font=FONT2)
