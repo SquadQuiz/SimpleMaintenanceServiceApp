@@ -142,6 +142,110 @@ def update_table():
         del(d[0]) # delete index number on list
         mtworkorderlist.insert('','end', values=d)
 
+# Database Edit dialog
+def editpage_mtworkorder(event=NONE):
+    # loading data from list
+    select = mtworkorderlist.selection()
+    output = mtworkorderlist.item(select) # dictionary data structure (key-based)
+    op = output['values']
+    
+    tsid = op[0]
+    t_name = op[1]
+    t_department = op[2]
+    t_tools = op[3]
+    t_details = op[4]
+    t_part_number = op[5]
+    t_phone_number = op[6]
+    
+    # Creating new dialog
+    edit_dialog = Toplevel()
+    edit_dialog.title('Editing database')
+    edit_dialog.geometry('500x500')
+    
+    #### Label & Entry ####
+    L = Label(edit_dialog, text="Maintenance Tickets!", font=FONT1)
+    L.place(x=100,y=5)
+
+    # ---------------
+    L = Label(edit_dialog, text="Name:", font=FONT2)
+    L.place(x=30, y=50)
+    v_name2 = StringVar()  # special variable for T1
+    v_name2.set(t_name)
+    E1 = ttk.Entry(edit_dialog, textvariable=v_name2, font=FONT2)
+    E1.place(x=150, y=50)
+
+    # ---------------
+    L = Label(edit_dialog, text="Department:", font=FONT2)
+    L.place(x=30, y=100)
+    v_department2 = StringVar()
+    v_department2.set(t_department)
+    E2 = ttk.Entry(edit_dialog, textvariable=v_department2, font=FONT2)
+    E2.place(x=150, y=100)
+
+    # ---------------
+    L = Label(edit_dialog, text="Equipment/Tools:", font=FONT2)
+    L.place(x=30, y=150)
+    v_tools2 = StringVar()
+    v_tools2.set(t_tools)
+    E3 = ttk.Entry(edit_dialog, textvariable=v_tools2, font=FONT2)
+    E3.place(x=150, y=150)
+
+    # ---------------
+    L = Label(edit_dialog, text="Details:", font=FONT2)
+    L.place(x=30, y=200)
+    v_details2 = StringVar()
+    v_details2.set(t_details)
+    E4 = ttk.Entry(edit_dialog, textvariable=v_details2, font=FONT2)
+    E4.place(x=150, y=200)
+
+    # ---------------
+    L = Label(edit_dialog, text="Part number:", font=FONT2)
+    L.place(x=30, y=250)
+    v_part_number2 = StringVar()
+    v_part_number2.set(t_part_number)
+    E5 = ttk.Entry(edit_dialog, textvariable=v_part_number2, font=FONT2)
+    E5.place(x=150, y=250)
+
+    # ---------------
+    L = Label(edit_dialog, text="Phone number:", font=FONT2)
+    L.place(x=30, y=300)
+    v_phone_number2 = StringVar()
+    v_phone_number2.set(t_phone_number)
+    E6 = ttk.Entry(edit_dialog, textvariable=v_phone_number2, font=FONT2)
+    E6.place(x=150, y=300)
+
+    # ---------------
+    
+    def edit_save_button():
+        name = v_name2.get()
+        department = v_department2.get()
+        tools = v_tools2.get()
+        details = v_details2.get()
+        part_number = v_part_number2.get()
+        phone_number = v_phone_number2.get()
+        
+        update_mtworkorder(tsid, 'name', name)
+        update_mtworkorder(tsid, 'department', department)
+        update_mtworkorder(tsid, 'tools', tools)
+        update_mtworkorder(tsid, 'details', details)
+        update_mtworkorder(tsid, 'part_number', part_number)
+        update_mtworkorder(tsid, 'phone_number', phone_number)
+        update_table()
+        messagebox.showinfo('Save', 'Saving information...')
+        edit_dialog.destroy() # Destroy dialog after save
+
+    #### Button ####
+    # Create a style and configure the font for the TButton
+    style = ttk.Style()
+    style.configure("TButton", font=FONT2)
+
+    B = ttk.Button(edit_dialog, text="   Save   ", style="TButton", command=edit_save_button)
+    B.place(x=200, y=350)
+    
+    edit_dialog.mainloop()
+
+mtworkorderlist.bind('<Double-1>', editpage_mtworkorder)
+
 ### START-UP ###
 update_table()
 
