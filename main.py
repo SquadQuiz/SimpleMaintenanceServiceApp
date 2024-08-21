@@ -26,7 +26,7 @@ Tab.add(T2, text='Tickets Information')
 Tab.add(T3, text='Summary') 
 Tab.pack(fill=BOTH, expand=1) 
 
-####------------------ TAB1 ------------------###
+####------------------ TAB1-Maintenance Tickets ------------------###
 
 #### Label & Entry ####
 L = Label(T1, text="Maintenance Tickets!", font=FONT1)
@@ -97,11 +97,13 @@ def save_button():
     text = text + "Details: " + details + "\n"
     text = text + "Part number: " + part_number + "\n"
     text = text + "Phone number: " + phone_number + "\n"
+    
     # Generate transaction id
     encrypt_num = 123543999010
     tsid = str(int(datetime.now().strftime('%y%m%d%H%M%S')) + encrypt_num)
     insert_mtworkorder(tsid, name, department, tools, details, part_number, phone_number)
     messagebox.showinfo('Save', 'Saving information...')
+    
     # Clear string
     clear_stringvar_value()
 
@@ -113,7 +115,11 @@ style.configure("TButton", font=FONT2)
 B = ttk.Button(T1, text="   Save   ", style="TButton", command=save_button)
 B.place(x=200, y=350)
 
-####------------------ END-TAB1 ------------------###
+####------------------ TAB2-Tickets Information ------------------###
+####------------------ TAB3-Summary ------------------###
+#TODO: Summary table
+
+####------------------ END-TAB3 ------------------###
 
 #----------------------- Main loop -----------------------#
 GUI.mainloop()
