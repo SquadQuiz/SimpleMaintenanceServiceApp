@@ -10,7 +10,7 @@ from db_maintenance import *
 
 GUI = Tk()
 GUI.title("Maintenance Application")
-GUI.geometry("500x500+800+400")
+GUI.geometry("800x600")
 
 #### FONT ####
 FONT1 = ("Angsana New", 20, 'bold')
