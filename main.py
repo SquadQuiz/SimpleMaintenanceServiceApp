@@ -155,7 +155,7 @@ def editpage_mtworkorder(event=NONE):
     t_tools = op[3]
     t_details = op[4]
     t_part_number = op[5]
-    t_phone_number = op[6]
+    t_phone_number = '0{}'.format(op[6])
     
     # Creating new dialog
     edit_dialog = Toplevel()
@@ -245,6 +245,19 @@ def editpage_mtworkorder(event=NONE):
     edit_dialog.mainloop()
 
 mtworkorderlist.bind('<Double-1>', editpage_mtworkorder)
+
+def delete_list_mtworkorder(event=None):
+    # loading data from list
+    select = mtworkorderlist.selection()
+    output = mtworkorderlist.item(select) # dictionary data structure (key-based)
+    tsid = output['values'][0] # get only tsid
+    
+    confirm_check = messagebox.askyesno('Delete', 'Are you trying to delete information?')
+    if (confirm_check):    
+        delete_mtworkorder(tsid)
+        update_table()
+
+mtworkorderlist.bind('<Delete>', delete_list_mtworkorder)
 
 ### START-UP ###
 update_table()
