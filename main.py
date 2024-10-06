@@ -10,7 +10,7 @@ from db_maintenance import *
 
 GUI = Tk()
 GUI.title("Maintenance Application")
-GUI.geometry("800x600")
+GUI.geometry("800x600+50+50")
 
 #### FONT ####
 FONT1 = ("Angsana New", 20, 'bold')
@@ -21,9 +21,11 @@ Tab = ttk.Notebook(GUI)
 T1 = Frame(Tab)
 T2 = Frame(Tab)
 T3 = Frame(Tab)
+T4 = Frame(Tab)
 Tab.add(T1, text='Maintenance Tickets') 
 Tab.add(T2, text='Tickets Information') 
-Tab.add(T3, text='Summary') 
+Tab.add(T3, text='Approval') 
+Tab.add(T4, text='Completed') 
 Tab.pack(fill=BOTH, expand=1) 
 
 ####------------------ TAB1-Maintenance Tickets ------------------###
