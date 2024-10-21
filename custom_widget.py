@@ -4,6 +4,10 @@ from tkinter import ttk
 GUI = Tk()
 GUI.geometry('1000x500')
 
+class RedText(ttk.Label):
+    def __init__(self, GUI, text='Example', size=20):
+        ttk.Label.__init__(self, GUI, text=text, font=('Angsana New', size, 'bold'), foreground='red')
+
 class WorkorderList(ttk.Treeview):
     def __init__(self, GUI):
         header_list = ['TSID', 'Name', 'Department', 'Equipment', 'Details', 'Part number', 'Phone number', 'Status']
@@ -15,6 +19,9 @@ class WorkorderList(ttk.Treeview):
 
     def insertdata(self, values):
         self.insert('', 'end', values=values)
+
+l = RedText(GUI, text='Custom Widget', size=40)
+l.pack()
 
 t = WorkorderList(GUI)
 t.pack()
