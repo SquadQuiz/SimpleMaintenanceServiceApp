@@ -10,7 +10,7 @@ from db_maintenance import *
 
 GUI = Tk()
 GUI.title("Maintenance Application")
-GUI.geometry("800x600+50+50")
+GUI.geometry("1200x600+50+50")
 
 #### FONT ####
 FONT1 = ("Angsana New", 20, 'bold')
@@ -22,11 +22,15 @@ T1 = Frame(Tab)
 T2 = Frame(Tab)
 T3 = Frame(Tab)
 T4 = Frame(Tab)
-Tab.add(T1, text='Maintenance Tickets') 
+Tab.add(T1, text='Create Ticket') 
 Tab.add(T2, text='Tickets Information') 
-Tab.add(T3, text='Approval') 
-Tab.add(T4, text='Completed') 
+Tab.add(T3, text='Approve Repairs') 
+Tab.add(T4, text='Closed Tickets') 
 Tab.pack(fill=BOTH, expand=1) 
+
+#### Tab Font & Padding ####
+tabStyle = ttk.Style()
+tabStyle.configure('TNotebook.Tab', font = (None, 13), padding = [40, 10])
 
 ####------------------ TAB1-Maintenance Tickets ------------------###
 
@@ -120,8 +124,8 @@ B.place(x=200, y=350)
 
 ####------------------ TAB2-Tickets Information ------------------###
 #TODO: Tree-view table 
-header_list = ['TSID', 'Name', 'Department', 'Equipment', 'Details', 'Part number', 'Phone number']
-header_width = [100, 100, 100, 150, 150, 100, 100]
+header_list = ['TSID', 'Name', 'Department', 'Equipment', 'Details', 'Part number', 'Phone number', 'Status']
+header_width = [100, 100, 100, 150, 150, 100, 100, 100]
 
 mtworkorderlist = ttk.Treeview(T2, columns=header_list, show='headings', height=20)
 mtworkorderlist.pack()
