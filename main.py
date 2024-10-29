@@ -265,6 +265,39 @@ def delete_list_mtworkorder(event=None):
 
 mtworkorderlist.bind('<Delete>', delete_list_mtworkorder)
 
+#### Context Menu (Right-click Menu) ####
+
+def approve_ticket():
+    selection = mtworkorderlist.selection()
+    item = mtworkorderlist.item(selection) # dictionary data structure (key-based)
+    ticket_id = item['values'][0] # get ticket ID
+    
+    confirm = messagebox.askyesno('Approve Ticket', 'Are you sure you want to approve this ticket?')
+    if confirm:    
+        update_mtworkorder(ticket_id, 'status', 'approved')
+        update_table()
+
+def mark_as_pending():
+    selection = mtworkorderlist.selection()
+    item = mtworkorderlist.item(selection) # dictionary data structure (key-based)
+    ticket_id = item['values'][0] # get ticket ID
+    
+    confirm = messagebox.askyesno('Change Status', 'Are you sure you want to mark this ticket as pending?')
+    if confirm:    
+        update_mtworkorder(ticket_id, 'status', 'pending')
+        update_table()
+
+context_menu = Menu(GUI, tearoff=0)
+context_menu.add_command(label='Approve Ticket', command=approve_ticket)
+context_menu.add_command(label='Mark as Pending', command=mark_as_pending)
+context_menu.add_command(label='Delete Ticket', command=delete_list_mtworkorder)
+
+## Context Menu Event Handler
+def show_context_menu(event):
+    context_menu.post(event.x_root, event.y_root)
+
+mtworkorderlist.bind('<Button-3>', show_context_menu) # Right-click binding
+
 ### START-UP ###
 update_table()
 
