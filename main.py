@@ -142,7 +142,7 @@ def update_table():
     # clear old data before inserting
     mtworkorderlist.delete(*mtworkorderlist.get_children())
     # Inserting table value
-    mtworkorder_db = view_mtworkorder()
+    mtworkorder_db = view_mtworkorder() # status 'new' and 'pending'
     for d in mtworkorder_db:
         d = list(d) # convert tuble to list
         del(d[0]) # delete index number on list
@@ -288,6 +288,7 @@ def mark_as_pending():
         update_table()
 
 context_menu = Menu(GUI, tearoff=0)
+# context_menu.add_command(label='Create Ticket', command=create_ticket)
 context_menu.add_command(label='Approve Ticket', command=approve_ticket)
 context_menu.add_command(label='Mark as Pending', command=mark_as_pending)
 context_menu.add_command(label='Delete Ticket', command=delete_list_mtworkorder)
@@ -301,8 +302,47 @@ mtworkorderlist.bind('<Button-3>', show_context_menu) # Right-click binding
 ### START-UP ###
 update_table()
 
-####------------------ TAB3-Summary ------------------###
-#TODO: Summary table
+####------------------ TAB3 - Approved Repairs ------------------###
+class WorkorderList(ttk.Treeview):
+    def __init__(self, GUI):
+        header_list = ['TSID', 'Name', 'Department', 'Equipment', 'Details', 'Part number', 'Phone number', 'Status']
+        header_width = [100, 100, 100, 150, 150, 100, 100, 100]
+        ttk.Treeview.__init__(self, GUI, columns=header_list, show='headings', height=20)
+        for h_list, h_width in zip(header_list, header_width):
+            self.heading(h_list, text=h_list)
+            self.column(h_list, width=h_width, anchor='center')
+
+    def insertdata(self, values):
+        self.insert('', 'end', values=values)
+
+class MenuText(ttk.Label):
+    def __init__(self, GUI, text='Example', size=20):
+        ttk.Label.__init__(self, GUI, text=text, font=('Angsana New', size, 'bold'), foreground='navy')
+
+# Table of Approve repair list
+tab3_table_title = MenuText(T3, text='Request Details', size=30)
+tab3_table_title.pack()
+
+approved_repairs_table = WorkorderList(T3)
+approved_repairs_table.pack()
+
+def update_table_approved_repairs(workorder_table):
+    """
+    Updates the approved repairs table with current data from database
+    Args:
+        workorder_table: WorkorderList widget to be updated
+    """
+    # Clear existing table data
+    workorder_table.delete(*workorder_table.get_children())
+    # Fetch approved workorders from database
+    approved_workorders = view_mtworkorder_status('approved')
+    for workorder in approved_workorders:
+        workorder_data = list(workorder) # Convert tuple to list
+        workorder_data.pop(0)  # Remove index number
+        workorder_table.insert('', 'end', values=workorder_data)
+
+# Initial table population
+update_table_approved_repairs(approved_repairs_table)
 
 ####------------------ END-TAB3 ------------------###
 
