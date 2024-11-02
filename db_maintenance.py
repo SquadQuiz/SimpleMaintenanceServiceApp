@@ -26,11 +26,19 @@ def insert_mtworkorder(tsid, name, department, tools, details, part_number, phon
         c.execute(command, (None, tsid, name, department, tools, details, part_number, phone_number, 'new'))
     conn.commit()  # saving database
 
-# Read workorder list from database
+# Read All workorder list from database
 def view_mtworkorder():
     with conn:
         command = 'SELECT * FROM mt_workorder'
         c.execute(command)
+        result = c.fetchall()
+    return result
+
+# Read workorder list from database with status filter
+def view_mtworkorder_status(status='approved'):
+    with conn:
+        command = 'SELECT * FROM mt_workorder WHERE status=(?)'
+        c.execute(command, ([status]))
         result = c.fetchall()
     return result
 
