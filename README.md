@@ -1,3 +1,3 @@
 # Simple Maintenance Service Application
 
-![home-ui](resouces/home.png)
+![home-ui](resources/home.png)
