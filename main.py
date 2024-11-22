@@ -346,5 +346,43 @@ update_table_approved_repairs(approved_repairs_table)
 
 ####------------------ END-TAB3 ------------------###
 
+def new_note(event):
+    GUI3 = Toplevel()
+    GUI3.geometry('500x500')
+    GUI3.title('Repair details')
+    
+    select = approved_repairs_table.selection()
+    output = approved_repairs_table.item(select) # dictionary data structure (key-based)
+    tsid = output['values'][0] # get only tsid
+    
+    FONT4 = (12)
+    L = ttk.Label(GUI3, text='Repair details (tsid: {})'.format(tsid), font=FONT4)
+    L.pack(pady=10)
+    
+    L1 = ttk.Label(GUI3, text='Date Start', font=FONT4)
+    L1.pack(pady=10)
+    v_date = StringVar()
+    E1 = ttk.Entry(GUI3, textvariable=v_date, font=FONT4)
+    E1.pack()
+    
+    L2 = ttk.Label(GUI3, text='Details', font=FONT4)
+    L2.pack(pady=10)
+    v_details = StringVar()
+    E2 = ttk.Entry(GUI3, textvariable=v_details, font=FONT4)
+    E2.pack()
+    
+    L3 = ttk.Label(GUI3, text='Other', font=FONT4)
+    L3.pack(pady=10)
+    v_other = StringVar()
+    E3 = ttk.Entry(GUI3, textvariable=v_other, font=FONT4)
+    E3.pack()
+    
+    B = ttk.Button(GUI3, text='Save')
+    B.pack(pady=45, ipadx=20, ipady=10)
+    
+    GUI3.mainloop()
+
+approved_repairs_table.bind('<Double-1>', new_note)       
+
 #----------------------- Main loop -----------------------#
 GUI.mainloop()
