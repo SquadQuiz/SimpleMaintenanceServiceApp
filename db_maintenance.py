@@ -7,7 +7,7 @@ conn = sqlite3.connect('maintenance.sqlite3')
 # Create a cursor object using the connection to perform SQL operations.
 c = conn.cursor()
 
-# Sql Execute Command, Create a database table
+# Sql Execute Command, Create a work order database table
 c.execute(""" CREATE TABLE IF NOT EXISTS mt_workorder (
 					ID INTEGER PRIMARY KEY AUTOINCREMENT,
 					tsid TEXT,
@@ -18,6 +18,53 @@ c.execute(""" CREATE TABLE IF NOT EXISTS mt_workorder (
 					part_number TEXT,
 					phone_number TEXT,
                     status TEXT ) """)
+
+# Sql Execute Command, Create a note database table
+c.execute("""CREATE TABLE IF NOT EXISTS mt_note (
+                ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                tsid TEXT,
+                date_start TEXT,
+                details TEXT,
+                other TEXT )""")
+
+
+#### MT_NOTE ####
+
+def insert_mtnote(tsid, start_date, details, other):
+    with conn:
+        command = 'INSERT INTO mt_note VALUES (?,?,?,?,?)'
+        c.execute(command, (None, tsid, start_date, details, other))
+    conn.commit()
+
+def view_mtnote():
+    with conn:
+        command = 'SELECT * FROM mt_note'
+        c.execute(command)
+        result = c.fetchall()
+    return result
+
+def view_mtnote_tsid(tsid):
+    with conn:
+        command = 'SELECT * FROM mt_note WHERE tsid=(?)'
+        c.execute(command, ([tsid]))
+        result = c.fetchone()
+    return result
+
+#### MT_WORKORDER ####
+
+# Update information on database mt_note
+def update_mtworkorder(tsid, field, newvalue):
+    with conn:
+        command = 'UPDATE mt_note SET {} = (?) WHERE tsid=(?)'.format(field)
+        c.execute(command, (newvalue, tsid))
+    conn.commit() 
+
+# Delete information on database mt_note
+def delete_mtworkorder(tsid):
+    with conn:
+        command = 'DELETE from mt_note WHERE tsid=(?)'
+        c.execute(command, ([tsid]))
+    conn.commit()
 
 def insert_mtworkorder(tsid, name, department, tools, details, part_number, phone_number):
     # Create a new work order in the database
