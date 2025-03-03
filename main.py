@@ -7,6 +7,8 @@ from tkinter import ttk
 from datetime import datetime
 # Import Database
 from db_maintenance import *
+# Import Tkinter Calendar
+from tkcalendar import DateEntry
 
 GUI = Tk()
 GUI.title("Maintenance Application")
@@ -360,7 +362,7 @@ update_table_approved_repairs(approved_repairs_table)
 
 def new_note(event):
     GUI3 = Toplevel()
-    GUI3.geometry('500x500')
+    GUI3.geometry('500x600')
     GUI3.title('Repair details')
     
     select = approved_repairs_table.selection()
@@ -373,23 +375,29 @@ def new_note(event):
     
     L1 = ttk.Label(GUI3, text='Date Start', font=FONT4)
     L1.pack(pady=10)
-    v_date = StringVar()
-    E1 = ttk.Entry(GUI3, textvariable=v_date, font=FONT4)
-    E1.pack()
+    cal = DateEntry(GUI3, width=20, background='darkblue', foreground='white', borderwidth=2, year=2025)
+    cal.pack(padx=10, pady=10)
     
     L2 = ttk.Label(GUI3, text='Details', font=FONT4)
     L2.pack(pady=10)
-    v_details = StringVar()
-    E2 = ttk.Entry(GUI3, textvariable=v_details, font=FONT4)
+    E2 = Text(GUI3, font=FONT4, width=30, height=5) # 5 lines 30 characters
     E2.pack()
     
     L3 = ttk.Label(GUI3, text='Other', font=FONT4)
     L3.pack(pady=10)
-    v_other = StringVar()
-    E3 = ttk.Entry(GUI3, textvariable=v_other, font=FONT4)
+    E3 = Text(GUI3, font=FONT4, width=30, height=5)
     E3.pack()
     
-    B = ttk.Button(GUI3, text='Save')
+    def save_note():
+        date = cal.get()
+        details = E2.get('1.0', 'end')
+        other = E3.get('1.0', 'end')
+        insert_mtnote(tsid, date, details, other)
+        messagebox.showinfo('Save', 'Saving information...')
+        GUI3.destroy()
+        update_table_approved_repairs(approved_repairs_table)
+    
+    B = ttk.Button(GUI3, text='Save', command=save_note)
     B.pack(pady=45, ipadx=20, ipady=10)
     
     GUI3.mainloop()
