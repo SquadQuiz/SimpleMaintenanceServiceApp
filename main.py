@@ -10,7 +10,19 @@ from db_maintenance import *
 
 GUI = Tk()
 GUI.title("Maintenance Application")
-GUI.geometry("1200x600+50+50")
+
+# application window size
+app_width_size = 1200
+app_height_size = 600
+
+winfo_width = GUI.winfo_screenwidth() # screen width
+winfo_height = GUI.winfo_screenheight() # screen height
+
+app_pos_x = (winfo_width / 2) - (app_width_size / 2)
+app_pos_y = (winfo_height / 2) - (app_height_size / 2)
+
+# centralize the window dialog by getting current screen width and height
+GUI.geometry(f'{app_width_size}x{app_height_size}+{app_pos_x:.0f}+{app_pos_y:.0f}')
 
 #### FONT ####
 FONT1 = ("Angsana New", 20, 'bold')
