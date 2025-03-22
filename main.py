@@ -1,7 +1,8 @@
 # Import tkinter GUI
-from tkinter import *
+from tkinter import Tk, Label, StringVar, Menu, Toplevel, Text, Frame
 from tkinter import messagebox
 from tkinter import ttk
+from tkinter import BOTH, NONE
 
 # Import datetime
 from datetime import datetime
