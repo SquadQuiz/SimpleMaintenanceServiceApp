@@ -375,23 +375,35 @@ def new_note(event):
     
     L1 = ttk.Label(GUI3, text='Date Start', font=FONT4)
     L1.pack(pady=10)
-    cal = DateEntry(GUI3, width=20, background='darkblue', foreground='white', borderwidth=2, year=2025)
+    cal = DateEntry(GUI3, width=20, background='darkblue', foreground='white', borderwidth=2, year=2025, date_pattern='dd/mm/yyyy')
     cal.pack(padx=10, pady=10)
     
     L2 = ttk.Label(GUI3, text='Details', font=FONT4)
     L2.pack(pady=10)
-    E2 = Text(GUI3, font=FONT4, width=30, height=5) # 5 lines 30 characters
+    E2 = Text(GUI3, font=FONT4, width=40, height=5) # 5 lines 40 characters textbox
     E2.pack()
     
-    L3 = ttk.Label(GUI3, text='Other', font=FONT4)
+    L3 = ttk.Label(GUI3, text='Notes', font=FONT4)
     L3.pack(pady=10)
-    E3 = Text(GUI3, font=FONT4, width=30, height=5)
+    E3 = Text(GUI3, font=FONT4, width=40, height=5)
     E3.pack()
+    
+    # Get data from database
+    get_data_db = view_mtnote_tsid(tsid)
+    print(get_data_db)
+    
+    # Insert data to textbox
+    if (get_data_db != None):
+        cal.set_date(get_data_db[2]) # get date from database
+        E2.insert('1.0', get_data_db[3]) # insert details to textbox
+        E3.insert('1.0', get_data_db[4]) # insert notes to textbox
+    else:
+        messagebox.showwarning('Warning', 'No data found!')
     
     def save_note():
         date = cal.get()
-        details = E2.get('1.0', 'end')
-        other = E3.get('1.0', 'end')
+        details = E2.get('1.0', 'end').strip() # strip '\n' from textbox
+        other = E3.get('1.0', 'end').strip()
         insert_mtnote(tsid, date, details, other)
         messagebox.showinfo('Save', 'Saving information...')
         GUI3.destroy()
