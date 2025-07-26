@@ -27,44 +27,7 @@ c.execute("""CREATE TABLE IF NOT EXISTS mt_note (
                 details TEXT,
                 other TEXT )""")
 
-
-#### MT_NOTE ####
-
-def insert_mtnote(tsid, start_date, details, other):
-    with conn:
-        command = 'INSERT INTO mt_note VALUES (?,?,?,?,?)'
-        c.execute(command, (None, tsid, start_date, details, other))
-    conn.commit()
-
-def view_mtnote():
-    with conn:
-        command = 'SELECT * FROM mt_note'
-        c.execute(command)
-        result = c.fetchall()
-    return result
-
-def view_mtnote_tsid(tsid):
-    with conn:
-        command = 'SELECT * FROM mt_note WHERE tsid=(?)'
-        c.execute(command, ([tsid]))
-        result = c.fetchone()
-    return result
-
 #### MT_WORKORDER ####
-
-# Update information on database mt_note
-def update_mtworkorder(tsid, field, newvalue):
-    with conn:
-        command = 'UPDATE mt_note SET {} = (?) WHERE tsid=(?)'.format(field)
-        c.execute(command, (newvalue, tsid))
-    conn.commit() 
-
-# Delete information on database mt_note
-def delete_mtworkorder(tsid):
-    with conn:
-        command = 'DELETE from mt_note WHERE tsid=(?)'
-        c.execute(command, ([tsid]))
-    conn.commit()
 
 def insert_mtworkorder(tsid, name, department, tools, details, part_number, phone_number):
     # Create a new work order in the database
@@ -101,4 +64,38 @@ def delete_mtworkorder(tsid):
     with conn:
         command = 'DELETE from mt_workorder WHERE tsid=(?)'
         c.execute(command, ([tsid]))
+    conn.commit()
+
+#### MT_NOTE ####
+
+def insert_mtnote(tsid, start_date, details, other):
+    with conn:
+        command = 'INSERT INTO mt_note VALUES (?,?,?,?,?)'
+        c.execute(command, (None, tsid, start_date, details, other))
+    conn.commit()
+
+def view_mtnote():
+    with conn:
+        command = 'SELECT * FROM mt_note'
+        c.execute(command)
+        result = c.fetchall()
+    return result
+
+def view_mtnote_tsid(tsid):
+    with conn:
+        command = 'SELECT * FROM mt_note WHERE tsid=(?)'
+        c.execute(command, ([tsid]))
+        result = c.fetchone()
+    return result
+
+def update_mtnote(tsid,field,newvalue):
+    with conn:
+        command = 'UPDATE mt_note SET {} = (?) WHERE tsid=(?)'.format(field)
+        c.execute(command,(newvalue,tsid))
+    conn.commit()
+    
+def delete_mtnote(tsid):
+    with conn:
+        command = 'DELETE FROM mt_note WHERE tsid=(?)'
+        c.execute(command,([tsid]))
     conn.commit()
