@@ -465,6 +465,34 @@ def show_close_ctx_menu(event):
 
 g_approved_list.bind('<Button-3>', show_close_ctx_menu)
 
+####------------------ TAB4-Closed Tickets ------------------###
+
+# Table of closed list
+tab4_table_title = MenuText(T4, text='Closed Tickets', size=30)
+tab4_table_title.pack()
+
+g_closed_list = WorkorderList(T4)
+g_closed_list.pack()
+
+def update_table_closed_list():
+    """
+    Updates the approved repairs table with current data from database
+    Args:
+        workorder_table: WorkorderList widget to be updated
+    """
+    # Clear existing table data
+    g_closed_list.delete(*g_closed_list.get_children())
+    # Fetch approved workorders from database
+    approved_workorders = view_mtworkorder_status('closed')
+    for workorder in approved_workorders:
+        workorder_data = list(workorder) # Convert tuple to list
+        workorder_data.pop(0)  # Remove index number
+        g_closed_list.insert('', 'end', values=workorder_data)
+
+# Start-up table population
+update_table()
+update_table_approved_repairs()
+update_table_closed_list()
 
 #----------------------- Main loop -----------------------#
 GUI.mainloop()
