@@ -440,7 +440,29 @@ def new_note(event):
     
     GUI3.mainloop()
 
-g_approved_repairs_table.bind('<Double-1>', new_note)       
+g_approved_repairs_table.bind('<Double-1>', new_note)
+
+## RIGHT CLICK MENU FOR APPROVED REPAIRS TABLE ##
+
+def closed_ticket():
+    selection = g_approved_repairs_table.selection()
+    item = g_approved_repairs_table.item(selection) # dictionary data structure (key-based)
+    ticket_id = item['values'][0] # get ticket ID
+    
+    confirm = messagebox.askyesno('Close Ticket', 'Are you sure you want to close this ticket?')
+    if confirm:    
+        update_mtworkorder(ticket_id, 'status', 'closed')
+        update_table()
+        update_table_approved_repairs(g_approved_repairs_table)
+    
+close_ctx_menu = Menu(GUI, tearoff=0)
+close_ctx_menu.add_command(label='Closed Ticket', command=closed_ticket)
+
+## Context Menu Event Handler
+def show_close_ctx_menu(event):
+    close_ctx_menu.post(event.x_root, event.y_root)
+
+g_approved_repairs_table.bind('<Button-3>', show_close_ctx_menu)
 
 #----------------------- Main loop -----------------------#
 GUI.mainloop()
