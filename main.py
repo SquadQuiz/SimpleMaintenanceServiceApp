@@ -307,7 +307,7 @@ def approve_ticket():
     if confirm:    
         update_mtworkorder(ticket_id, 'status', 'approved')
         update_table()
-        update_table_approved_repairs(g_approved_repairs_table)
+        update_table_approved_repairs(g_approved_list)
 
 def mark_as_pending():
     selection = mtworkorderlist.selection()
@@ -355,26 +355,26 @@ class MenuText(ttk.Label):
 tab3_table_title = MenuText(T3, text='Request Details', size=30)
 tab3_table_title.pack()
 
-g_approved_repairs_table = WorkorderList(T3)
-g_approved_repairs_table.pack()
+g_approved_list = WorkorderList(T3)
+g_approved_list.pack()
 
-def update_table_approved_repairs(workorder_table):
+def update_table_approved_repairs():
     """
     Updates the approved repairs table with current data from database
     Args:
         workorder_table: WorkorderList widget to be updated
     """
     # Clear existing table data
-    workorder_table.delete(*workorder_table.get_children())
+    g_approved_list.delete(*g_approved_list.get_children())
     # Fetch approved workorders from database
     approved_workorders = view_mtworkorder_status('approved')
     for workorder in approved_workorders:
         workorder_data = list(workorder) # Convert tuple to list
         workorder_data.pop(0)  # Remove index number
-        workorder_table.insert('', 'end', values=workorder_data)
+        g_approved_list.insert('', 'end', values=workorder_data)
 
 # Initial table population
-update_table_approved_repairs(g_approved_repairs_table)
+update_table_approved_repairs()
 
 ####------------------ END-TAB3 ------------------###
 
@@ -383,8 +383,8 @@ def new_note(event):
     GUI3.geometry('500x600')
     GUI3.title('Repair details')
     
-    select = g_approved_repairs_table.selection()
-    output = g_approved_repairs_table.item(select) # dictionary data structure (key-based)
+    select = g_approved_list.selection()
+    output = g_approved_list.item(select) # dictionary data structure (key-based)
     tsid = output['values'][0] # get only tsid
     
     FONT4 = (12)
@@ -433,27 +433,28 @@ def new_note(event):
             update_mtnote(tsid, 'other', other)
         messagebox.showinfo('Save', 'Saving information...')
         GUI3.destroy()
-        update_table_approved_repairs(g_approved_repairs_table)
+        update_table_approved_repairs()
     
     B = ttk.Button(GUI3, text='Save', command=save_note)
     B.pack(pady=45, ipadx=20, ipady=10)
     
     GUI3.mainloop()
 
-g_approved_repairs_table.bind('<Double-1>', new_note)
+g_approved_list.bind('<Double-1>', new_note)
 
 ## RIGHT CLICK MENU FOR APPROVED REPAIRS TABLE ##
 
 def closed_ticket():
-    selection = g_approved_repairs_table.selection()
-    item = g_approved_repairs_table.item(selection) # dictionary data structure (key-based)
+    selection = g_approved_list.selection()
+    item = g_approved_list.item(selection) # dictionary data structure (key-based)
     ticket_id = item['values'][0] # get ticket ID
     
     confirm = messagebox.askyesno('Close Ticket', 'Are you sure you want to close this ticket?')
     if confirm:    
         update_mtworkorder(ticket_id, 'status', 'closed')
         update_table()
-        update_table_approved_repairs(g_approved_repairs_table)
+        update_table_approved_repairs()
+        update_table_closed_list()
     
 close_ctx_menu = Menu(GUI, tearoff=0)
 close_ctx_menu.add_command(label='Closed Ticket', command=closed_ticket)
@@ -462,7 +463,8 @@ close_ctx_menu.add_command(label='Closed Ticket', command=closed_ticket)
 def show_close_ctx_menu(event):
     close_ctx_menu.post(event.x_root, event.y_root)
 
-g_approved_repairs_table.bind('<Button-3>', show_close_ctx_menu)
+g_approved_list.bind('<Button-3>', show_close_ctx_menu)
+
 
 #----------------------- Main loop -----------------------#
 GUI.mainloop()
