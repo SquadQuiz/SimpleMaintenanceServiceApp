@@ -307,6 +307,7 @@ def approve_ticket():
     if confirm:    
         update_mtworkorder(ticket_id, 'status', 'approved')
         update_table()
+        update_table_approved_repairs(g_approved_repairs_table)
 
 def mark_as_pending():
     selection = mtworkorderlist.selection()
@@ -354,8 +355,8 @@ class MenuText(ttk.Label):
 tab3_table_title = MenuText(T3, text='Request Details', size=30)
 tab3_table_title.pack()
 
-approved_repairs_table = WorkorderList(T3)
-approved_repairs_table.pack()
+g_approved_repairs_table = WorkorderList(T3)
+g_approved_repairs_table.pack()
 
 def update_table_approved_repairs(workorder_table):
     """
@@ -373,7 +374,7 @@ def update_table_approved_repairs(workorder_table):
         workorder_table.insert('', 'end', values=workorder_data)
 
 # Initial table population
-update_table_approved_repairs(approved_repairs_table)
+update_table_approved_repairs(g_approved_repairs_table)
 
 ####------------------ END-TAB3 ------------------###
 
@@ -382,8 +383,8 @@ def new_note(event):
     GUI3.geometry('500x600')
     GUI3.title('Repair details')
     
-    select = approved_repairs_table.selection()
-    output = approved_repairs_table.item(select) # dictionary data structure (key-based)
+    select = g_approved_repairs_table.selection()
+    output = g_approved_repairs_table.item(select) # dictionary data structure (key-based)
     tsid = output['values'][0] # get only tsid
     
     FONT4 = (12)
@@ -432,14 +433,14 @@ def new_note(event):
             update_mtnote(tsid, 'other', other)
         messagebox.showinfo('Save', 'Saving information...')
         GUI3.destroy()
-        update_table_approved_repairs(approved_repairs_table)
+        update_table_approved_repairs(g_approved_repairs_table)
     
     B = ttk.Button(GUI3, text='Save', command=save_note)
     B.pack(pady=45, ipadx=20, ipady=10)
     
     GUI3.mainloop()
 
-approved_repairs_table.bind('<Double-1>', new_note)       
+g_approved_repairs_table.bind('<Double-1>', new_note)       
 
 #----------------------- Main loop -----------------------#
 GUI.mainloop()
